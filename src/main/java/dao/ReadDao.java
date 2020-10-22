@@ -33,8 +33,10 @@ public class ReadDao {
             "HAVING NUMBER_OF_FRIENDSHIPS > 100 AND NUMBER_OF_LIKES > 100";
 
 
+    private ReadDao() {
+    }
 
-    public void readData() {
+    public static void readData() {
 
         try (Connection connection = Datasource.getConnection();
              Statement statement = connection.createStatement();

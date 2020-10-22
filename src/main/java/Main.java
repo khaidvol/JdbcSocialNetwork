@@ -10,12 +10,10 @@ public class Main {
         TableDao.createAllTables();
 
         // Write data to the database
-        WriteDao writeDao = new WriteDao();
-        writeDao.populateData();
+        WriteDao.populateData();
 
         // Read required data from the database
         // "names (only distinct) of users who has more than 100 friends and 100 likes in March 2025"
-        ReadDao readDao = new ReadDao();
-        readDao.readData();
+        ReadDao.readData();
     }
 }

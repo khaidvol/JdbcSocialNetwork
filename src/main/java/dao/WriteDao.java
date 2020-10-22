@@ -17,11 +17,14 @@ public class WriteDao {
     private static final String INSERT_FRIENDSHIP = "insert into FRIENDSHIPS (USERID1, USERID2, TIMESTAMP) values (?, ?, ?)";
     private static final String INSERT_LIKE = "insert into LIKES (POSTID, USERID, TIMESTAMP) values (?, ?, ?)";
 
+    private WriteDao(){
+    }
+
     /**
     Add Users to the database (one by one)
      */
 
-    private void insertUser(User user) {
+    private static void insertUser(User user) {
         try (Connection connection = Datasource.getConnection();
              PreparedStatement statement = connection.prepareStatement(INSERT_USER
                      , Statement.RETURN_GENERATED_KEYS)
@@ -45,7 +48,7 @@ public class WriteDao {
      Add Posts to the database  (one by one)
      */
 
-    private void insertPost(Post post) {
+    private static void insertPost(Post post) {
         try (Connection connection = Datasource.getConnection();
              PreparedStatement statement = connection.prepareStatement(INSERT_POST
                      , Statement.RETURN_GENERATED_KEYS)
@@ -69,7 +72,7 @@ public class WriteDao {
      Add Friendships to the database (1000-entries list by one)
      */
 
-    private void insertFriendshipList(List<Friendship> friendships) {
+    private static void insertFriendshipList(List<Friendship> friendships) {
         try (Connection connection = Datasource.getConnection();
              PreparedStatement statement = connection.prepareStatement(INSERT_FRIENDSHIP)
         ){
@@ -91,7 +94,7 @@ public class WriteDao {
      Add Likes to the database (1000-entries list by one)
      */
 
-    private void insertLikesList(List<Like> likes) {
+    private static void insertLikesList(List<Like> likes) {
         try (Connection connection = Datasource.getConnection();
         PreparedStatement statement = connection.prepareStatement(INSERT_LIKE)
         ) {
@@ -112,15 +115,15 @@ public class WriteDao {
      Add all data to the database
      */
 
-    public void populateData() {
+    public static void populateData() {
         List<User> users = DataGenerator.generateUsersList();
         logger.info("Inserting generated users to the database...");
-        users.forEach(this::insertUser);
+        users.forEach(WriteDao::insertUser);
         logger.info((long) users.size() + " users inserted successfully");
 
         List<Post> posts = DataGenerator.generatePostsList();
         logger.info("Inserting generated posts to the database");
-        posts.forEach(this::insertPost);
+        posts.forEach(WriteDao::insertPost);
         logger.info((long) posts.size() + " posts inserted successfully");
 
 
@@ -129,7 +132,7 @@ public class WriteDao {
         int startFriendships = 1;
         int endFriendships = 1000;
 
-        for(int i = 1; i <= 110; i++){
+        for(int i = 0; i < 110; i++){
             logger.info("Friendships: batch #" + i);
             friendships = DataGenerator.generateFriendshipsList(startFriendships, endFriendships);
 
@@ -147,7 +150,7 @@ public class WriteDao {
         int startLikes = 1;
         int endLikes = 1000;
 
-        for(int i = 1; i <= 310; i++){
+        for(int i = 0; i < 310; i++){
             logger.info("Likes: batch #" + i);
             likes = DataGenerator.generateLikesList(startLikes, endLikes);
             logger.info("Inserting generated likes to the database");
