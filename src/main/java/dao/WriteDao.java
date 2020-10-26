@@ -81,9 +81,9 @@ public class WriteDao {
                 statement.setInt(1, friendship.getUserId1());
                 statement.setInt(2, friendship.getUserId2());
                 statement.setDate(3, friendship.getTimestamp());
-                statement.execute();
+                statement.addBatch();
             }
-
+            statement.executeBatch();
         } catch (SQLException e) {
             logger.error(e.getMessage());
         }
@@ -103,8 +103,9 @@ public class WriteDao {
                 statement.setInt(1, like.getPostId());
                 statement.setInt(2, like.getUserId());
                 statement.setDate(3, like.getTimestamp());
-                statement.execute();
+                statement.addBatch();
             }
+            statement.executeBatch();
 
         } catch (SQLException e) {
             logger.error(e.getMessage());
